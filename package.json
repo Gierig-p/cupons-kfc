@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "atualizar": "node scripts/atualizar-cupons.js"
+    "atualizar": "node scripts/atualizar-cupons.js",
+    "publicar": "node scripts/publicar.js"
   },
   "devDependencies": {
     "playwright": "^1.64.1"
