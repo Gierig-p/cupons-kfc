@@ -1,0 +1,60 @@
+name: Atualizar cupons e publicar site
+
+on:
+  schedule:
+    - cron: "0 9 * * *"   # todo dia às 06:00 (horário de Brasília)
+    - cron: "0 15 * * *"  # e de novo às 12:00
+  workflow_dispatch:       # botão "Run workflow" para rodar na hora
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+
+      # Se o site do KFC falhar, publica com a lista anterior
+      # (cupons vencidos somem sozinhos pela data).
+      - name: Buscar cupons
+        id: atualizar
+        continue-on-error: true
+        run: npm run atualizar
+
+      - name: Salvar lista nova no repositório
+        if: steps.atualizar.outcome == 'success'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add cupons.js
+          git diff --cached --quiet || (git commit -m "Atualiza cupons" && git push)
+
+      - name: Separar arquivos do site
+        run: mkdir _site && cp index.html app.js style.css cupons.js _site/
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4

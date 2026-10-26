@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cupons KFC de Hoje</title>
+  <meta name="description" content="Todos os cupons do KFC Brasil válidos hoje, atualizados todo dia.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Cupons KFC de hoje</h1>
+    <p id="data-hoje"></p>
+  </header>
+
+  <main>
+    <div class="filtros">
+      <input id="busca" type="search" placeholder="Buscar cupom (ex: balde)">
+      <select id="categoria">
+        <option value="">Todas as categorias</option>
+      </select>
+    </div>
+    <p id="resumo"></p>
+    <section id="lista"></section>
+  </main>
+
+  <footer>
+    <p id="atualizado"></p>
+    <p>
+      Site não oficial, sem ligação com o KFC. Os cupons vêm de
+      <a href="https://www.kfc.com.br/coupons" target="_blank" rel="noopener">kfc.com.br/coupons</a>.
+      Use no app, no site ou no caixa do restaurante e confira as regras antes.
+    </p>
+  </footer>
+
+  <script src="cupons.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

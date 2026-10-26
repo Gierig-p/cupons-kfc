@@ -1,0 +1,12 @@
+{
+  "name": "cupons-kfc",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "atualizar": "node scripts/atualizar-cupons.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.64.1"
+  }
+}
